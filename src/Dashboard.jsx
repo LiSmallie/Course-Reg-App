@@ -1,36 +1,15 @@
-// StudentDashboard.js
 import React, { useState, useEffect } from 'react';
 import PersonalDetailsPage from './Personal details';
-// import AnnouncementPage from './AnnouncementPage';
 import CourseSelectionPage from './Course Selection';
+import './index.css'; // Import Tailwind CSS
 
 const StudentDashboard = ({ matricNo }) => {
   const [currentPage, setCurrentPage] = useState('personalDetails');
   const [personalDetails, setPersonalDetails] = useState({});
-//   const [announcements, setAnnouncements] = useState([]);
   const [courseSelection, setCourseSelection] = useState([]);
 
   useEffect(() => {
-    // Fetch personal details, announcements, and course selection data based on matricNo
-    // Replace the following fetch calls with actual API requests
-
-    // Fetch personal details
-    fetch(`http://localhost:3001/api/personal-details/${matricNo}`) // Fixed the URL
-      .then((response) => response.json())
-      .then((data) => setPersonalDetails(data))
-      .catch((error) => console.error('Error fetching personal details:', error));
-
-    // Fetch announcements
-    // fetch(`/api/announcements`)
-    //   .then((response) => response.json())
-    //   .then((data) => setAnnouncements(data))
-    //   .catch((error) => console.error('Error fetching announcements:', error));
-
-    // Fetch course selection
-    fetch(`http://localhost:3001/api/course-selection/${matricNo}`) // Fixed the URL
-      .then((response) => response.json())
-      .then((data) => setCourseSelection(data))
-      .catch((error) => console.error('Error fetching course selection:', error));
+    // Fetch data...
   }, [matricNo]);
 
   const handlePageChange = (page) => {
@@ -38,16 +17,28 @@ const StudentDashboard = ({ matricNo }) => {
   };
 
   return (
-    <div>
-      <h2>Welcome to the Student Dashboard, {matricNo}!</h2>
-      <nav>
-        <button onClick={() => handlePageChange('personalDetails')}>Personal Details</button>
-        {/* <button onClick={() => handlePageChange('announcements')}>Announcements</button> */}
-        <button onClick={() => handlePageChange('courseSelection')}>Course Selection</button>
+    <div className="container mx-auto mt-8">
+      <h2 className="text-2xl font-bold mb-4">Welcome to the Student Dashboard, {matricNo}!</h2>
+      <nav className="mb-8">
+        <button
+          className={`mr-4 ${currentPage === 'personalDetails' && 'bg-blue-500 text-white'}`}
+          onClick={() => handlePageChange('personalDetails')}
+        >
+          Personal Details
+        </button>
+        <button
+          className={`mr-4 ${currentPage === 'courseSelection' && 'bg-blue-500 text-white'}`}
+          onClick={() => handlePageChange('courseSelection')}
+        >
+          Course Selection
+        </button>
       </nav>
-      {currentPage === 'personalDetails' && <PersonalDetailsPage details={personalDetails} />}
-      {/* {currentPage === 'announcements' && <AnnouncementPage announcements={announcements} />} */}
-      {currentPage === 'courseSelection' && <CourseSelectionPage courses={courseSelection} />}
+      {currentPage === 'personalDetails' && (
+        <PersonalDetailsPage details={personalDetails} />
+      )}
+      {currentPage === 'courseSelection' && (
+        <CourseSelectionPage courses={courseSelection} />
+      )}
     </div>
   );
 };
